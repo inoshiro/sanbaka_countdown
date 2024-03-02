@@ -1,58 +1,12 @@
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted } from "vue";
-
   useHead({
     bodyAttrs: {
       style: "margin: 0;",
     },
   });
 
-  const targetDate: Ref<Date> = ref(new Date("2024/03/23")); // 記念日の日付を設定
-  const remainingTime = ref("");
-  let interval: NodeJS.Timeout;
-
-  let colorIndex = 0; // カラーのインデックスを管理する変数
-
-  const replaceWithSan = (number: string): string => {
-    return number.replace(/3/g, () => {
-      const delay = Math.random() * 0.5; // 0秒から0.5秒の間でランダムな遅延
-      const colorClass = `san${(colorIndex % 3) + 1}`; // クラス名を決定 (san1, san2, san3)
-      colorIndex++; // 次の色に移るためにインクリメント
-      return `<span class="san ${colorClass}">3</span>`;
-    });
-  };
-
-  const updateCountdown = () => {
-    const now: Date = new Date();
-    const distance: number = targetDate.value.getTime() - now.getTime();
-    if (distance < 0) {
-      clearInterval(interval);
-      remainingTime.value = "記念日です！";
-      // 特別なメッセージやビデオを表示するロジックを追加
-    } else {
-      let _days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      let _hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      let _minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      let _seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      const days = replaceWithSan(_days.toString().padStart(2, "0"));
-      const hours = replaceWithSan(_hours.toString().padStart(2, "0"));
-      const minutes = replaceWithSan(_minutes.toString().padStart(2, "0"));
-      const seconds = replaceWithSan(_seconds.toString().padStart(2, "0"));
-
-      remainingTime.value = `<span class="number">${days}</span><span class="unit">日</span> <span class="number">${hours}</span><span class="unit">時間</span> <span class="number">${minutes}</span><span class="unit">分</span> <span class="number">${seconds}</span><span class="unit">秒</span>`;
-    }
-  };
-
-  onMounted(() => {
-    interval = setInterval(updateCountdown, 1000);
-  });
-
-  onUnmounted(() => {
-    clearInterval(interval);
-  });
+  const targetDate = ref(new Date("2024/03/23"));
+  const { remainingTime } = useCountdown(targetDate.value);
 </script>
 
 <template>
