@@ -10,18 +10,20 @@
     targetDate.value
   );
   const { replaceWithSan } = useSanReplace();
+  const padFormat = (num: number) =>
+    replaceWithSan(String(num).padStart(2, "0"));
 </script>
 
 <template>
   <div class="countdown-container">
     <div class="countdown">
-      <span class="number" v-html="replaceWithSan(days)"></span>
+      <span class="number" v-html="padFormat(days)"></span>
       <span class="unit">日</span>
-      <span class="number" v-html="replaceWithSan(hours)"></span>
+      <span class="number" v-html="padFormat(hours)"></span>
       <span class="unit">時間</span>
-      <span class="number" v-html="replaceWithSan(minutes)"></span>
+      <span class="number" v-html="padFormat(minutes)"></span>
       <span class="unit">分</span>
-      <span class="number" v-html="replaceWithSan(seconds)"></span>
+      <span class="number" v-html="padFormat(seconds)"></span>
       <span class="unit">秒</span>
     </div>
   </div>
