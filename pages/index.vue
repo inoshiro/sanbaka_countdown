@@ -6,12 +6,24 @@
   });
 
   const targetDate = ref(new Date("2024/03/23"));
-  const { remainingTime } = useCountdown(targetDate.value);
+  const { days, hours, minutes, seconds, isCountdownOver } = useCountdown(
+    targetDate.value
+  );
+  const { replaceWithSan } = useSanReplace();
 </script>
 
 <template>
   <div class="countdown-container">
-    <div class="countdown" v-html="remainingTime"></div>
+    <div class="countdown">
+      <span class="number" v-html="replaceWithSan(days)"></span>
+      <span class="unit">日</span>
+      <span class="number" v-html="replaceWithSan(hours)"></span>
+      <span class="unit">時間</span>
+      <span class="number" v-html="replaceWithSan(minutes)"></span>
+      <span class="unit">分</span>
+      <span class="number" v-html="replaceWithSan(seconds)"></span>
+      <span class="unit">秒</span>
+    </div>
   </div>
 </template>
 
