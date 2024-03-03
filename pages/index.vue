@@ -15,16 +15,20 @@
 </script>
 
 <template>
-  <div class="countdown-container">
-    <div class="countdown">
-      <span class="number" v-html="padFormat(days)"></span>
-      <span class="unit">日</span>
-      <span class="number" v-html="padFormat(hours)"></span>
-      <span class="unit">時間</span>
-      <span class="number" v-html="padFormat(minutes)"></span>
-      <span class="unit">分</span>
-      <span class="number" v-html="padFormat(seconds)"></span>
-      <span class="unit">秒</span>
+  <div class="container">
+    <div class="title">さんばか5周年まで</div>
+    <div class="countdown-container">
+      <div class="countdown">
+        <span class="unit">あと</span>
+        <span class="number" v-html="padFormat(days)"></span>
+        <span class="unit">日</span>
+        <span class="number" v-html="padFormat(hours)"></span>
+        <span class="unit">時間</span>
+        <span class="number" v-html="padFormat(minutes)"></span>
+        <span class="unit">分</span>
+        <span class="number" v-html="padFormat(seconds)"></span>
+        <span class="unit">秒</span>
+      </div>
     </div>
   </div>
 </template>
@@ -58,13 +62,27 @@
     }
   }
 
-  .countdown-container {
+  .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #333;
     font-family: "M PLUS 1 Code", sans-serif;
+  }
+
+  .title {
+    margin-bottom: 2rem; /* タイトルとカウントダウンの間隔 */
+    font-size: 4rem; /* タイトルのフォントサイズ */
+    color: #e0e0e0; /* タイトルのフォントカラー */
+    text-shadow: 0 0 10px #ccc; /* タイトルのテキストシャドウで立体感を出す */
+  }
+
+  .countdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .countdown {
