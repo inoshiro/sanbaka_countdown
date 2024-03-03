@@ -20,10 +20,11 @@
 
   // パーティクルの設定
   const containerRef = ref(null);
-  const { emitParticles } = useParticles(
-    containerRef,
-    "/images/particles/banken.png"
-  );
+  const particleImages = [
+    "/images/particles/banken.png",
+    "/images/particles/piyo.png",
+  ];
+  const { emitParticles } = useParticles(containerRef, particleImages);
 
   // パーティクルを1秒ごとに発生させる
   useInterval(() => {

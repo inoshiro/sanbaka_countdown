@@ -11,7 +11,7 @@ import * as PIXI from "pixi.js";
 // useParticlesコンポーザブルを定義します。これはコンテナ要素と画像パスを受け取ります。
 export function useParticles(
   containerElement: Ref<HTMLElement | null>,
-  imagePath: string
+  imagePath: string[]
 ) {
   const app: Ref<PIXI.Application | null> = ref(null);
 
@@ -42,8 +42,10 @@ export function useParticles(
 
   const emitParticles = async (count: number) => {
     if (process.client && app.value) {
+      const imageIndex =
+        Math.floor(Math.random() * 10 * imagePath.length) % imagePath.length;
       const PIXI = await import("pixi.js");
-      const texture = PIXI.Texture.from(imagePath);
+      const texture = PIXI.Texture.from(imagePath[imageIndex]);
       const particlesContainer = new PIXI.ParticleContainer();
       app.value.stage.addChild(particlesContainer);
 
@@ -73,7 +75,7 @@ export function useParticles(
     particle.x = Math.random() * window.innerWidth; // パーティクルの初期X位置をランダムに設定
     particle.y = window.innerHeight; // パーティクルの初期Y位置を画面の下端に設定
     particle.anchor.set(0.5); // パーティクルのアンカー（中心点）を中央に設定
-    particle.scale.set(0.1 + Math.random() * 0.3); // パーティクルのスケール（サイズ）をランダムに設定
+    particle.scale.set(0.1 + Math.random() * 0.1); // パーティクルのスケール（サイズ）をランダムに設定
 
     // パーティクルの初速度を設定。X方向はランダム、Y方向は上向きに設定しています。
     const initialXVelocity = (Math.random() - 0.5) * 5; // X方向の初速度（左右どちらかランダム）
