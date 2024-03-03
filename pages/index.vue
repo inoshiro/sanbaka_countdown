@@ -2,6 +2,7 @@
   import { useInterval } from "~/composables/useInterval";
 
   useHead({
+    title: "さんばか5周年記念日 カウントダウンタイマー",
     bodyAttrs: {
       style: "margin: 0;",
     },
