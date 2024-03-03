@@ -54,10 +54,14 @@ export function useParticles(
       app.value.ticker.add((delta) => {
         particlesContainer.children.forEach((particle) => {
           const p = particle as PIXI.Sprite;
-          p.x += p.velocity.x;
-          // 重力を適用してパーティクルのY方向の速度を更新
-          p.velocity.y += 0.5; // 重力の加速度
-          p.y += p.velocity.y;
+
+          p.x += p.velocity.x * delta;
+          p.velocity.y += 0.5 * delta; // 重力の加速度を適用
+          p.y += p.velocity.y * delta;
+
+          // パーティクルの滑らかな回転
+          // p.rotation += p.rotationSpeed * delta;
+          p.rotation += 0.1 * delta;
 
           // パーティクルが画面下端を超えたら、それをコンテナから削除します。
           if (p.y > window.innerHeight + p.height) {
@@ -79,6 +83,10 @@ export function useParticles(
     const initialXVelocity = (Math.random() - 0.5) * 5; // X方向の初速度（左右どちらかランダム）
     const initialYVelocity = -5 - Math.random() * 15; // Y方向の初速度（上向き）
     particle.velocity = { x: initialXVelocity, y: initialYVelocity };
+
+    // パーティクルにランダムな回転を設定
+    particle.rotation = Math.random() * Math.PI * 2; // 初期回転角度
+    particle.rotationSpeed = (Math.random() - 0.5) * 0.01; // 回転速度（ランダムな方向と速度）
 
     container.addChild(particle); // パーティクルをコンテナに追加
   }
