@@ -16,7 +16,7 @@
 
 <template>
   <div class="container">
-    <div class="title">さんばか5周年まで</div>
+    <div class="title">さんばか<span class="number">5</span>周年まで</div>
     <div class="countdown-container">
       <div class="countdown">
         <span class="unit">あと</span>
@@ -34,24 +34,6 @@
 </template>
 
 <style>
-  @keyframes shake {
-    0% {
-      transform: translate(0px, 0px) rotateZ(0deg);
-    }
-    45% {
-      transform: translate(4px, 4px) rotateZ(1deg);
-    }
-    50% {
-      transform: translate(0px, 4px) rotateZ(0deg);
-    }
-    75% {
-      transform: translate(4px, 0px) rotateZ(-1deg);
-    }
-    100% {
-      transform: translate(0px, 0px) rotateZ(0deg);
-    }
-  }
-
   @keyframes bounce {
     0%,
     100% {
@@ -69,14 +51,20 @@
     align-items: center;
     height: 100vh;
     background-color: #333;
+    background: linear-gradient(
+      145deg,
+      #121212,
+      #3d3d3d
+    ); /* グラデーション背景 */
+
     font-family: "M PLUS 1 Code", sans-serif;
   }
 
   .title {
-    margin-bottom: 2rem; /* タイトルとカウントダウンの間隔 */
-    font-size: 4rem; /* タイトルのフォントサイズ */
-    color: #e0e0e0; /* タイトルのフォントカラー */
-    text-shadow: 0 0 10px #ccc; /* タイトルのテキストシャドウで立体感を出す */
+    font-size: 3rem; /* タイトルのフォントサイズ */
+    color: #e0e0e0;
+    text-align: center;
+    margin-bottom: 2rem; /* カウントダウンとの間隔 */
   }
 
   .countdown-container {
@@ -88,16 +76,28 @@
   .countdown {
     color: #e0e0e0;
     text-align: center;
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.1
+    ); /* カウントダウン背景の薄いオーバーレイ */
+    border-radius: 20px; /* 角を丸く */
+    padding: 2rem; /* カウントダウンの内側のパディング */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* カウントダウンの影 */
   }
 
   .number {
-    font-size: 8rem; /* 数字部分のフォントサイズを大きく */
+    font-size: 6rem; /* 数字部分のフォントサイズを調整 */
     font-weight: 700; /* Bold */
+    display: inline-block;
+    margin: 0 0.3rem; /* 数字間のマージン */
   }
 
   .unit {
-    font-size: 3rem; /* 単位部分のフォントサイズを小さく */
+    font-size: 2rem; /* 単位部分のフォントサイズを調整 */
     font-weight: 400; /* Regular */
+    vertical-align: super; /* 単位を少し上に配置 */
   }
 
   .san {
