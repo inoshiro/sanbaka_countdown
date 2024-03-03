@@ -5,21 +5,24 @@
  * initialYVelocity：パーティクルのY方向の初速度（上向き）を変更することで、パーティクルがどれだけ高く飛ぶかを調整できます。値を大きく（負の数値で絶対値が大きい）すると、より高く飛びます。
  * particle.scale.set(0.1 + Math.random() * 0.3)：この行でパーティクルのサイズをランダムに設定しています。乗算する数値を調整することで、パーティクルのサイズ範囲を変更できます。
  */
-import { ref, onMounted, onUnmounted } from 'vue';
-import * as PIXI from 'pixi.js';
+import { ref, onMounted, onUnmounted } from "vue";
+import * as PIXI from "pixi.js";
 
 // useParticlesコンポーザブルを定義します。これはコンテナ要素と画像パスを受け取ります。
-export function useParticles(containerElement: Ref<HTMLElement | null>, imagePath: string) {
+export function useParticles(
+  containerElement: Ref<HTMLElement | null>,
+  imagePath: string
+) {
   const app: Ref<PIXI.Application | null> = ref(null);
 
   onMounted(async () => {
     if (process.client && containerElement.value) {
-      const PIXI = await import('pixi.js');
+      const PIXI = await import("pixi.js");
       app.value = new PIXI.Application({
         width: containerElement.value.offsetWidth,
         height: containerElement.value.offsetHeight,
         backgroundAlpha: 0,
-        resizeTo: window
+        resizeTo: window,
       });
 
       // Pixiのキャンバス(view)をcontainerElementに追加します。
@@ -29,13 +32,17 @@ export function useParticles(containerElement: Ref<HTMLElement | null>, imagePat
 
   onUnmounted(() => {
     if (app.value) {
-      app.value.destroy(true, { children: true, texture: true, baseTexture: true });
+      app.value.destroy(true, {
+        children: true,
+        texture: true,
+        baseTexture: true,
+      });
     }
   });
 
   const emitParticles = async (count: number) => {
     if (process.client && app.value) {
-      const PIXI = await import('pixi.js');
+      const PIXI = await import("pixi.js");
       const texture = PIXI.Texture.from(imagePath);
       const particlesContainer = new PIXI.ParticleContainer();
       app.value.stage.addChild(particlesContainer);
@@ -51,7 +58,7 @@ export function useParticles(containerElement: Ref<HTMLElement | null>, imagePat
           // 重力を適用してパーティクルのY方向の速度を更新
           p.velocity.y += 0.5; // 重力の加速度
           p.y += p.velocity.y;
-          
+
           // パーティクルが画面下端を超えたら、それをコンテナから削除します。
           if (p.y > window.innerHeight + p.height) {
             particlesContainer.removeChild(p);
