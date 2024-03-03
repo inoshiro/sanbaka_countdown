@@ -5,7 +5,7 @@
     },
   });
 
-  const targetDate = ref(new Date("2024/03/23"));
+  const targetDate = ref(new Date("2024/03/22"));
   const { days, hours, minutes, seconds, isCountdownOver } = useCountdown(
     targetDate.value
   );
@@ -16,7 +16,9 @@
 
 <template>
   <div class="container">
-    <div class="title">さんばか<span class="title-number">5</span>周年まで</div>
+    <div class="title">
+      さんばか<span class="title-number">5</span>周年記念日まで
+    </div>
     <div class="countdown-container">
       <divnumber class="countdown">
         <span class="unit">あと</span>
