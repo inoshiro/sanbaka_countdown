@@ -1,14 +1,19 @@
 <script setup lang="ts">
+  import { useInterval } from "~/composables/useInterval";
+
   useHead({
     bodyAttrs: {
       style: "margin: 0;",
     },
   });
 
+  // カウントダウンの設定
   const targetDate = ref(new Date("2024/03/22"));
   const { days, hours, minutes, seconds, isCountdownOver } = useCountdown(
     targetDate.value
   );
+
+  // 数値を桁数に合わせて0埋めする
   const { replaceWithSan } = useSanReplace();
   const padFormat = (num: number) =>
     replaceWithSan(String(num).padStart(2, "0"));
@@ -19,6 +24,11 @@
     containerRef,
     "/images/particles/banken.png"
   );
+
+  // パーティクルを1秒ごとに発生させる
+  useInterval(() => {
+    emitParticles(10);
+  }, 1000);
 </script>
 
 <template>
@@ -74,6 +84,8 @@
     color: #e0e0e0;
     text-align: center;
     margin-bottom: 2rem; /* カウントダウンとの間隔 */
+    z-index: 1; /* canvasより前面に表示 */
+    position: relative; /* canvasとの重なり順を制御するために追加 */
   }
 
   .title-number {
