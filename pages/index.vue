@@ -12,15 +12,22 @@
   const { replaceWithSan } = useSanReplace();
   const padFormat = (num: number) =>
     replaceWithSan(String(num).padStart(2, "0"));
+
+  // パーティクルの設定
+  const containerRef = ref(null);
+  const { emitParticles } = useParticles(
+    containerRef,
+    "/images/particles/banken.png"
+  );
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" @click="emitParticles(10)" ref="containerRef">
     <div class="title">
       さんばか<span class="title-number">5</span>周年記念日まで
     </div>
     <div class="countdown-container">
-      <divnumber class="countdown">
+      <div class="countdown">
         <span class="unit">あと</span>
         <span class="number" v-html="padFormat(days)"></span>
         <span class="unit">日</span>
@@ -30,7 +37,7 @@
         <span class="unit">分</span>
         <span class="number" v-html="padFormat(seconds)"></span>
         <span class="unit">秒</span>
-      </divnumber>
+      </div>
     </div>
   </div>
 </template>
@@ -55,14 +62,11 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    position: relative; /* canvasをこのコンテナに対して絶対位置指定するために追加 */
     background-color: #333;
-    background: linear-gradient(
-      145deg,
-      #121212,
-      #3d3d3d
-    ); /* グラデーション背景 */
-
+    background: linear-gradient(145deg, #121212, #3d3d3d);
     font-family: "M PLUS 1 Code", sans-serif;
+    overflow: hidden; /* containerの外側にコンテンツがはみ出さないようにする */
   }
 
   .title {
@@ -84,10 +88,16 @@
     color: transparent;
   }
 
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* 他のコンテンツの背後に配置 */
+  }
+
   .countdown-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 1; /* canvasより前面に表示 */
+    position: relative; /* canvasとの重なり順を制御するために追加 */
   }
 
   .countdown {
