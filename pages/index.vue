@@ -32,7 +32,7 @@
 </script>
 
 <template>
-  <div class="container" @click="emitParticles(10)" ref="containerRef">
+  <div class="container" ref="containerRef">
     <div class="title">
       さんばか<span class="title-number">5</span>周年記念日まで
     </div>

@@ -59,10 +59,6 @@ export function useParticles(
           p.velocity.y += 0.5 * delta; // 重力の加速度を適用
           p.y += p.velocity.y * delta;
 
-          // パーティクルの滑らかな回転
-          // p.rotation += p.rotationSpeed * delta;
-          p.rotation += 0.1 * delta;
-
           // パーティクルが画面下端を超えたら、それをコンテナから削除します。
           if (p.y > window.innerHeight + p.height) {
             particlesContainer.removeChild(p);
@@ -86,7 +82,6 @@ export function useParticles(
 
     // パーティクルにランダムな回転を設定
     particle.rotation = Math.random() * Math.PI * 2; // 初期回転角度
-    particle.rotationSpeed = (Math.random() - 0.5) * 0.01; // 回転速度（ランダムな方向と速度）
 
     container.addChild(particle); // パーティクルをコンテナに追加
   }
