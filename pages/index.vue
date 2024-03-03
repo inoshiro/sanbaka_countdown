@@ -16,9 +16,9 @@
 
 <template>
   <div class="container">
-    <div class="title">さんばか<span class="number">5</span>周年まで</div>
+    <div class="title">さんばか<span class="title-number">5</span>周年まで</div>
     <div class="countdown-container">
-      <div class="countdown">
+      <divnumber class="countdown">
         <span class="unit">あと</span>
         <span class="number" v-html="padFormat(days)"></span>
         <span class="unit">日</span>
@@ -28,19 +28,22 @@
         <span class="unit">分</span>
         <span class="number" v-html="padFormat(seconds)"></span>
         <span class="unit">秒</span>
-      </div>
+      </divnumber>
     </div>
   </div>
 </template>
 
 <style>
-  @keyframes bounce {
+  @keyframes flash {
     0%,
     100% {
-      transform: translateY(0);
+      opacity: 1;
+      text-shadow: none;
     }
     50% {
-      transform: translateY(-20px);
+      opacity: 0.8;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+        0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.5);
     }
   }
 
@@ -65,6 +68,18 @@
     color: #e0e0e0;
     text-align: center;
     margin-bottom: 2rem; /* カウントダウンとの間隔 */
+  }
+
+  .title-number {
+    font-size: 6rem; /* 数字部分のフォントサイズを調整 */
+    font-weight: 700; /* Bold */
+    display: inline-block;
+    margin: 0 0.3rem; /* 数字間のマージン */
+    background: -webkit-linear-gradient(45deg, #f06, #aef);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
 
   .countdown-container {
@@ -103,18 +118,18 @@
   .san {
     display: inline-block;
     font-weight: bold;
-    animation: bounce 0.5s infinite; /* 振動エフェクトの適用 */
+    animation: flash 1s infinite;
   }
 
   .san1 {
-    color: #76ff03; /* 色1 */
+    color: rgb(172, 255, 189);
   }
 
   .san2 {
-    color: #ff5722; /* 色2 */
+    color: rgb(228, 85, 74);
   }
 
   .san3 {
-    color: #2196f3; /* 色3 */
+    color: rgb(104, 255, 255);
   }
 </style>
