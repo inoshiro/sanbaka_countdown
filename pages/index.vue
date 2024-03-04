@@ -24,6 +24,7 @@
   const particleImages = [
     "/images/particles/banken.png",
     "/images/particles/piyo.png",
+    "/images/particles/man.png",
   ];
   const { emitParticles } = useParticles(containerRef, particleImages);
 
