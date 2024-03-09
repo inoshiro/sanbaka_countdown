@@ -8,7 +8,6 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import * as PIXI from "pixi.js";
 
-// useParticlesコンポーザブルを定義します。これはコンテナ要素と画像パスを受け取ります。
 export function useParticles(
   containerElement: Ref<HTMLElement | null>,
   imagePath: string[]
@@ -24,8 +23,6 @@ export function useParticles(
         backgroundAlpha: 0,
         resizeTo: window,
       });
-
-      // Pixiのキャンバス(view)をcontainerElementに追加します。
       containerElement.value.appendChild(app.value.view);
     }
   });
@@ -58,34 +55,35 @@ export function useParticles(
           const p = particle as PIXI.Sprite;
 
           p.x += p.velocity.x * delta;
-          p.velocity.y += 0.5 * delta; // 重力の加速度を適用
+          p.velocity.y += 0.5 * delta;
           p.y += p.velocity.y * delta;
 
-          // パーティクルが画面下端を超えたら、それをコンテナから削除します。
           if (p.y > window.innerHeight + p.height) {
             particlesContainer.removeChild(p);
+            p.destroy(); // パーティクルのリソースを解放
           }
         });
+
+        if (particlesContainer.children.length === 0) {
+          app.value.stage.removeChild(particlesContainer);
+          particlesContainer.destroy(); // コンテナが空になったらリソースを解放
+        }
       });
     }
   };
 
   function createParticle(PIXI, container, texture) {
     const particle = new PIXI.Sprite(texture);
-    particle.x = Math.random() * window.innerWidth; // パーティクルの初期X位置をランダムに設定
-    particle.y = window.innerHeight; // パーティクルの初期Y位置を画面の下端に設定
-    particle.anchor.set(0.5); // パーティクルのアンカー（中心点）を中央に設定
-    particle.scale.set(0.1 + Math.random() * 0.1); // パーティクルのスケール（サイズ）をランダムに設定
-
-    // パーティクルの初速度を設定。X方向はランダム、Y方向は上向きに設定しています。
-    const initialXVelocity = (Math.random() - 0.5) * 5; // X方向の初速度（左右どちらかランダム）
-    const initialYVelocity = -5 - Math.random() * 15; // Y方向の初速度（上向き）
-    particle.velocity = { x: initialXVelocity, y: initialYVelocity };
-
-    // パーティクルにランダムな回転を設定
-    particle.rotation = Math.random() * Math.PI * 2; // 初期回転角度
-
-    container.addChild(particle); // パーティクルをコンテナに追加
+    particle.x = Math.random() * window.innerWidth;
+    particle.y = window.innerHeight;
+    particle.anchor.set(0.5);
+    particle.scale.set(0.1 + Math.random() * 0.1);
+    particle.velocity = {
+      x: (Math.random() - 0.5) * 5,
+      y: -5 - Math.random() * 15,
+    };
+    particle.rotation = Math.random() * Math.PI * 2;
+    container.addChild(particle);
   }
 
   return { emitParticles };
