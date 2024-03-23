@@ -1,15 +1,24 @@
 <script setup lang="ts">
   import { useInterval } from "~/composables/useInterval";
 
+  const years = ref(5);
+  const debutDate = new Date("2019/03/22");
   useHead({
-    title: "さんばか5周年記念日 カウントダウンタイマー",
+    title: `さんばか${years.value}周年記念日 カウントダウンタイマー`,
     bodyAttrs: {
       style: "margin: 0;",
     },
   });
 
+  const queryYears = Number(useRoute().query.years);
+  if (queryYears) {
+    years.value = queryYears;
+  }
+
   // カウントダウンの設定
-  const targetDate = ref(new Date("2024/03/22"));
+  const targetDate = ref(
+    new Date(debutDate.getFullYear() + years.value, 2, 22)
+  );
   const { days, hours, minutes, seconds, isCountdownOver } = useCountdown(
     targetDate.value
   );
@@ -37,7 +46,8 @@
 <template>
   <div class="container" ref="containerRef">
     <div class="title">
-      さんばか<span class="title-number">5</span>周年記念日まで
+      さんばか<span class="title-number">{{ years }}</span
+      >周年記念日まで
     </div>
     <div class="countdown-container">
       <div class="countdown">
