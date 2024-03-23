@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { useInterval } from "~/composables/useInterval";
 
-  const years = ref(5);
-  const debutDate = new Date("2019/03/22");
+  const queryYears = Number(useRoute().query.years);
+  const years = ref(queryYears || 5);
+
   useHead({
     title: `さんばか${years.value}周年記念日 カウントダウンタイマー`,
     bodyAttrs: {
@@ -10,12 +11,8 @@
     },
   });
 
-  const queryYears = Number(useRoute().query.years);
-  if (queryYears) {
-    years.value = queryYears;
-  }
-
   // カウントダウンの設定
+  const debutDate = new Date("2019/03/22");
   const targetDate = ref(
     new Date(debutDate.getFullYear() + years.value, 2, 22)
   );
